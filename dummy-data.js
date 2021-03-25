@@ -21,10 +21,10 @@ const DUMMY_EVENTS = [
 	},
 	{
 		id: 'e3',
-		title: 'Networking for extroverts',
+		title: 'Boat trip with karyna',
 		description:
 			 'You probably need no help with networking in general. But focusing your energy correctly - that is something where most people can improve.',
-		location: 'My Street 12, 10115 Broke City',
+		location: 'Budapest, Hungary',
 		date: '2022-04-10',
 		image: 'images/extrovert-event.jpg',
 		isFeatured: true,

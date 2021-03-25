@@ -7,7 +7,7 @@ function MainHeader (props) {
 		 <header className={classes.header}>
 			 <div className={classes.logo}>
 				 <Link href={'/'}>
-					 NextEvents
+					 Events with Karyna
 				 </Link>
 			 </div>
 			 <nav className={classes.navigation}>
