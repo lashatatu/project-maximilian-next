@@ -5,18 +5,19 @@ function MainPage (props) {
 
 	return (
 		 <div>
-			 <EventList items={props.events}/>
+			 <EventList items={props.events} />
 		 </div>
 	);
 }
 
-export async function getStaticProps(context){
-	const featuredEvents=await getFeaturedEvents();
+export async function getStaticProps (context) {
+	const featuredEvents = await getFeaturedEvents();
 	return {
-		props:{
-			events:featuredEvents
-		}
-	}
+		props: {
+			events: featuredEvents
+		},
+		revalidate: 1800
+	};
 }
 
 export default MainPage;
