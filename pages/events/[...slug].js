@@ -1,11 +1,11 @@
 import {useRouter} from 'next/router';
-import {getFilteredEvents} from '../../helpers/api-utils';
 import EventList from '../../components/events/event-list';
-import {Fragment, useEffect, useState} from 'react';
+import React, {Fragment, useEffect, useState} from 'react';
 import useSWR from 'swr';
 import ResultsTitle from '../../components/events/results-title';
 import Button from '../../components/ui/button';
 import ErrorAlert from '../../components/ui/error-alert';
+import Head from 'next/head';
 
 function FilteredEventsPage (props) {
 	const [loadedEvents, setLoadedEvents] = useState();
@@ -32,8 +32,22 @@ function FilteredEventsPage (props) {
 		}
 	}, [data]);
 
+	let pageHeadData=(
+		 <Head>
+			 <title>Filtered events</title>
+			 <meta
+					name={'description'}
+					content={`a list`} />
+		 </Head>
+	);
+
 	if ( !loadedEvents ) {
-		return <p className={'center'}>loading...</p>;
+		return (
+			 <Fragment>
+				 {pageHeadData}
+				 <p className={'center'}>loading...</p>
+			 </Fragment>
+		);
 	}
 
 	const filteredYear = filterData[0];
@@ -42,6 +56,14 @@ function FilteredEventsPage (props) {
 	const numYear = +filteredYear;
 	const numMonth = +filteredMonth;
 
+	pageHeadData = (
+		 <Head>
+			 <title>Filtered events</title>
+			 <meta
+					name={'description'}
+					content={`All events for ${numMonth}/${numYear}`} />
+		 </Head>
+	);
 	if ( isNaN(numYear) ||
 		 isNaN(numMonth) ||
 		 numYear > 2030 ||
@@ -51,6 +73,7 @@ function FilteredEventsPage (props) {
 		 error ) {
 		return (
 			 <Fragment>
+				 {pageHeadData}
 				 <ErrorAlert>
 					 <p>Invalid filter. please adjust your values</p>
 				 </ErrorAlert>
@@ -67,10 +90,10 @@ function FilteredEventsPage (props) {
 			 eventDate.getMonth() === numMonth - 1;
 	});
 
-
 	if ( !filteredEvents || filteredEvents.length === 0 ) {
 		return (
 			 <Fragment>
+				 {pageHeadData}
 				 <ErrorAlert>
 					 <p>no events found for the chosen filter</p>
 				 </ErrorAlert>
@@ -86,11 +109,13 @@ function FilteredEventsPage (props) {
 
 	return (
 		 <Fragment>
+			 {pageHeadData}
 			 <ResultsTitle date={date} />
 			 <EventList items={filteredEvents} />
 		 </Fragment>
 	);
 }
+
 //
 // export async function getServerSideProps (context) {
 // 	const {params} = context;
