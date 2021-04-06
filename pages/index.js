@@ -1,28 +1,34 @@
 import Head from 'next/head';
-import Link from 'next/link';
+
+import { getFeaturedEvents } from '../helpers/api-util';
 import EventList from '../components/events/event-list';
-import {getFeaturedEvents} from '../helpers/api-utils';
+import NewsletterRegistration from '../components/input/newsletter-registration';
 
-function MainPage (props) {
-	return (
-		 <div>
-			 <Head>
-				 <title>Events with Lasha</title>
-				 <meta name={'description'} content={'find great events'}/>
-			 </Head>
-			 <EventList items={props.events} />
-		 </div>
-	);
+function HomePage(props) {
+  return (
+    <div>
+      <Head>
+        <title>NextJS Events</title>
+        <meta
+          name='description'
+          content='Find a lot of great events that allow you to evolve...'
+        />
+      </Head>
+      <NewsletterRegistration />
+      <EventList items={props.events} />
+    </div>
+  );
 }
 
-export async function getStaticProps (context) {
-	const featuredEvents = await getFeaturedEvents();
-	return {
-		props: {
-			events: featuredEvents
-		},
-		revalidate: 1800
-	};
+export async function getStaticProps() {
+  const featuredEvents = await getFeaturedEvents();
+
+  return {
+    props: {
+      events: featuredEvents,
+    },
+    revalidate: 1800,
+  };
 }
 
-export default MainPage;
+export default HomePage;
