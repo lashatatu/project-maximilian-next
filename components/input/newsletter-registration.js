@@ -1,49 +1,51 @@
+import { useRef, useContext } from 'react';
+
 import classes from './newsletter-registration.module.css';
-import { useContext, useRef } from 'react';
 import NotificationContext from '../../store/notification-context';
 
-function NewsletterRegistration () {
+function NewsletterRegistration() {
 	const emailInputRef = useRef();
 	const notificationCtx = useContext(NotificationContext);
 
-	function registrationHandler (event) {
+	function registrationHandler(event) {
 		event.preventDefault();
 
 		const enteredEmail = emailInputRef.current.value;
 
 		notificationCtx.showNotification({
-			title: 'signing up',
-			message: 'registering for newsletter',
-			status: 'pending'
+			title: 'Signing up...',
+			message: 'Registering for newsletter.',
+			status: 'pending',
 		});
 
 		fetch('/api/newsletter', {
 			method: 'POST',
-			body: JSON.stringify({email: enteredEmail}),
+			body: JSON.stringify({ email: enteredEmail }),
 			headers: {
-				'Content-Type': 'application/json'
-			}
+				'Content-Type': 'application/json',
+			},
 		})
-			 .then(response => {
-				 if ( response.ok ) {
+			 .then((response) => {
+				 if (response.ok) {
 					 return response.json();
 				 }
-				 return response.json().then(data => {
-					 throw new Error(data.message || 'something went wrong!');
+
+				 return response.json().then((data) => {
+					 throw new Error(data.message || 'Something went wrong!');
 				 });
 			 })
 			 .then((data) => {
 				 notificationCtx.showNotification({
-					 title: 'Success',
-					 message: 'Successfully registered for newsletter',
-					 status: 'success'
+					 title: 'Success!',
+					 message: 'Successfully registered for newsletter!',
+					 status: 'success',
 				 });
 			 })
-			 .catch(error => {
+			 .catch((error) => {
 				 notificationCtx.showNotification({
-					 title: 'Error',
-					 message: error.message || 'something went wrong!',
-					 status: 'error'
+					 title: 'Error!',
+					 message: error.message || 'Something went wrong!',
+					 status: 'error',
 				 });
 			 });
 	}
@@ -54,10 +56,10 @@ function NewsletterRegistration () {
 			 <form onSubmit={registrationHandler}>
 				 <div className={classes.control}>
 					 <input
-							type="email"
-							id="email"
-							placeholder="Your email"
-							aria-label="Your email"
+							type='email'
+							id='email'
+							placeholder='Your email'
+							aria-label='Your email'
 							ref={emailInputRef}
 					 />
 					 <button>Register</button>
