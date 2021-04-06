@@ -1,6 +1,6 @@
 import { MongoClient } from 'mongodb';
 
-export async function connectDatabase () {
+export async function connectDatabase() {
 	const client = await MongoClient.connect(
 		 'mongodb+srv://lashatatu:zr1wZbHY6XEc38JY@lashamax.b0l9y.mongodb.net/events?retryWrites=true&w=majority'
 	);
@@ -11,18 +11,24 @@ export async function connectDatabase () {
 export async function insertDocument (client, collection, document) {
 	const db = client.db();
 
-	const result = await db.collection(collection).insertOne({document});
+	const result = await db.collection(collection).insertOne(document);
+
 	return result;
 }
 
-export async function getAllDocuments (client, collection, sort, filter = {}) {
-	const db=client.db()
+
+
+
+
+
+export async function getAllDocuments(client, collection, sort) {
+	const db = client.db();
 
 	const documents = await db
 		 .collection(collection)
-		 .find(filter)
+		 .find()
 		 .sort(sort)
 		 .toArray();
 
-	return documents
+	return documents;
 }
